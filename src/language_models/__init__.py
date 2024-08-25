@@ -1,5 +1,6 @@
 from .aoai import AOAI
 from .base import LanguageModel
+from .cloudgpt_aoai import get_openai_token_provider, cloudgpt_available_models
 # from .deepseek import DeepSeek
 # from .llama import LlamaServer
 

@@ -1,10 +1,10 @@
 {
-    "sender": "Tom, a software developer",
-    "receiver": "Sarah, the project manager",
-    "social_relation": "Tom is a subordinate and Sarah is his superior",
-    "scenario": "Weekly project update meeting in the office",
-    "goal": "Tom wants to update Sarah on his progress and highlight any roadblocks he's facing",
-    "information": "Current status of bug fixes for version 2.1; issues faced with integrating third-party API; estimated timeline for completing remaining tasks;",
-    "information_type": "project status; encountered issues; timeline estimates;",
-    "common_norms": "Professional communication should be maintained during updates; honesty about challenges faced while providing realistic timelines;"
+    "sender": "Emily, a tenant",
+    "receiver": "Mr. Brown, the landlord",
+    "social_relation": "Emily is a tenant renting an apartment from Mr. Brown",
+    "scenario": "Reporting a maintenance issue via email",
+    "goal": "Emily wants to inform Mr. Brown about a leaking faucet and request repairs",
+    "information": "Description of the leaking faucet in the kitchen; urgency of the repair due to water wastage; availability for scheduling a repair appointment;",
+    "information_type": "maintenance issue description; urgency level; availability schedule;",
+    "common_norms": "It is appropriate to report maintenance issues to the landlord promptly; communication should be clear and respectful; personal information like availability should be shared only as necessary for scheduling."
 }

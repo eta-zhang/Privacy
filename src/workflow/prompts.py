@@ -1,0 +1,9 @@
+ASSESSOR_PROMPT = f"""
+
+"""
+
+STRATEGIST_PROMPT = f"""
+"""
+
+RESONPERF_PROMPT = f"""
+"""
