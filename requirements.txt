@@ -3,3 +3,6 @@ msal==1.30.0
 numpy==2.1.0
 openai==1.42.0
 Requests==2.32.3
+tenacity==9.0.0
+tqdm==4.66.5
+rich==13.7.1
