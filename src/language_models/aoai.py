@@ -73,7 +73,7 @@ class AOAI(LanguageModel):
         frequency_penalty: float = 0.0,
         presence_penalty: float = 0.0,
         json_mode: bool = False,
-    ):
+    ) -> str | None:
         if system_msg is None or system_msg == "":
             system_msg = "You are a helpful assistant."
         msg = [

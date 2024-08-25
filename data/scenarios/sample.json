@@ -1,0 +1,10 @@
+{
+    "sender": "Tom, a software developer",
+    "receiver": "Sarah, the project manager",
+    "social_relation": "Tom is a subordinate and Sarah is his superior",
+    "scenario": "Weekly project update meeting in the office",
+    "goal": "Tom wants to update Sarah on his progress and highlight any roadblocks he's facing",
+    "information": "Current status of bug fixes for version 2.1; issues faced with integrating third-party API; estimated timeline for completing remaining tasks;",
+    "information_type": "project status; encountered issues; timeline estimates;",
+    "common_norms": "Professional communication should be maintained during updates; honesty about challenges faced while providing realistic timelines;"
+}
