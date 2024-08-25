@@ -1,0 +1,5 @@
+azure_storage==0.37.0
+msal==1.30.0
+numpy==2.1.0
+openai==1.42.0
+Requests==2.32.3
