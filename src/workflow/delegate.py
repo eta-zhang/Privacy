@@ -12,7 +12,7 @@ class AIDelegate(SocietyOfMindAgent):
         name: str,
         model: cloudgpt_available_models,
         scenario: dict[str, str],
-        max_turns: int = 3,
+        max_turns: int = 4,
         cache_seed: Optional[int] = None,
         is_termination_msg: Optional[Callable[[dict], bool]] = None,
         **kwargs

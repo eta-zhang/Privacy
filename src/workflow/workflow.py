@@ -38,8 +38,10 @@ def workflow():
         llm_config=llm_config,
     )
 
+    message = "Hello, I am a user."
     chat_result = recipient.initiate_chat(
         recipient=delegate,
+        message=message
     )
 
     # TODO: save result or evaluate the result
