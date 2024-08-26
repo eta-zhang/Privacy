@@ -1,7 +1,8 @@
-from autogen import ConversableAgent, AssistantAgent
+from autogen import AssistantAgent
 
-from .utils import load_llm_cofig, TERMINATE
+from .utils import load_llm_cofig
 from .delegate import AIDelegate
+from .prompts import RECIPIENT_PROMPT
 
 llm_config = load_llm_cofig(
     model="gpt-4o-20240513",
@@ -13,7 +14,8 @@ def workflow():
     scenario = "You are supposed to repsonse anything."
     user = AssistantAgent(
         name="user",
-        llm_config=llm_config
+        llm_config=llm_config,
+        system_message=scenario
     )
     
     # user refine the scenario
@@ -36,6 +38,7 @@ def workflow():
     recipient = AssistantAgent(
         name="recipient",
         llm_config=llm_config,
+        system_message=RECIPIENT_PROMPT.format()
     )
 
     message = "Hello, I am a user."

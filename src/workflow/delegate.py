@@ -3,7 +3,7 @@ from autogen import GroupChat, GroupChatManager, AssistantAgent
 from autogen.agentchat.contrib.society_of_mind_agent import SocietyOfMindAgent
 
 from .utils import load_llm_cofig
-from .prompts import ASSESSOR_PROMPT, STRATEGIST_PROMPT, RESONPERF_PROMPT
+from .prompts import ASSESSOR_PROMPT, STRATEGIST_PROMPT, RESPONSER_PROMPT
 from ..language_models import cloudgpt_available_models
 
 class AIDelegate(SocietyOfMindAgent):
@@ -14,7 +14,6 @@ class AIDelegate(SocietyOfMindAgent):
         scenario: dict[str, str],
         max_turns: int = 4,
         cache_seed: Optional[int] = None,
-        is_termination_msg: Optional[Callable[[dict], bool]] = None,
         **kwargs
     ):
         """
@@ -47,7 +46,7 @@ class AIDelegate(SocietyOfMindAgent):
 
         _responser = AssistantAgent(
             name="responser",
-            system_message=RESONPERF_PROMPT,
+            system_message=RESPONSER_PROMPT,
             llm_config=llm_config,
         )
 
