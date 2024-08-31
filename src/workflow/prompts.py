@@ -1,16 +1,21 @@
 ASSESSOR_PROMPT = """
 You are an accessor and you are supposed to assess the situation.
-You will be given a context, user preferences, and common norms to refer to. 
+You will be given an Information Flow Card(IFC), user preferences, and common norms to refer to. 
 
-The context identifies the sender, receiver, social relation, scenario, goal, information, information type and common norms.
-Context:
-{context}
+The IFC identifies delegate, recipient, social relation, scenario, goal, information, information type and common norms.
+IFC:
+{ifc}
 
 The user perferences are the user defined rules that should be followed when disclosing information.
 User Preferences:
 {user_preferences}
 
-Common norms are the general rules that apply to the situation.
+The common norms are the general rules that apply to the situation.
+Common Norms:
+{common_norms}
+
+You should assess the situation based on the IFC, user preferences, and common norms.
+Provide a detailed assessment for the situation and describe the key points you considered.
 """
 
 STRATEGIST_PROMPT = """
@@ -34,19 +39,25 @@ There are some key points to consider:
 1. Assess the startegy and the user's preferences.
 2. If the strategy is negative, your response should be abstract and non-committal.
 3. If the strategy is positive, your response should be detailed and informative.
-Response as pure string and do not use any special format.
+Only output the response as a string to the recipient in the conversation and do not use any special format.
+Output 'TERMINATE' when you want to end the conversation.
 """
 
 RECIPIENT_PROMPT = """
 You are a recipient and you are supposed to respond to the sender.
-You will be given your basic information, a scenario and sender's message.
+You will be given your basic information, Information Flow Card(IFC), your scipt.
 
 Basic Information:
 {basic_information}
 
-Scenario:
-{scenario}
+IFC:
+{ifc}
 
-Think carefully about the response based on the information and then respond to the sender.
-Response as pure string and do not use any special format.
+Script:
+{script}
+
+Think carefully about the response based on the information and your script, and then respond to the sender.
+
+Only output the response as a string to the sender in the conversation and do not use any special format.
+Output 'TERMINATE' when you want to end the conversation.
 """

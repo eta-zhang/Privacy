@@ -8,7 +8,7 @@ from tenacity import retry, stop_after_attempt
 from typing import Callable, Literal, Optional, Union, Any
 from tqdm.rich import tqdm_rich
 
-from language_models import LanguageModel
+from ..language_models import LanguageModel
 
 
 @retry(stop=stop_after_attempt(3), reraise=False, retry_error_callback=lambda x: None)
@@ -121,6 +121,14 @@ def ask_model_in_parallel(
 
 
 def _get_parser(type: str) -> Callable:
+    """
+    Get the parser function for the given type.
+    Args:
+        type (str): the type of response to parse.
+
+    Returns:
+        Callable: the parser function.
+    """
     def markdown_parser(result: str, type: str):
         # TODO: Check whether this is the correct regex pattern
         pattern = r"```(.*?)```"
