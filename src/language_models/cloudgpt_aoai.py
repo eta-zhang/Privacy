@@ -324,6 +324,7 @@ cloudgpt_available_models = Literal[
     "gpt-4-turbo-20240409",
     "gpt-4o-20240513",
     "gpt-4o-mini-20240718",
+    "gpt-4o-20240806",
 ]
 
 

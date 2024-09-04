@@ -1,6 +1,6 @@
 
-# these information comes from google's paper "Operationalizing Contextual Integrity in Privacy-Conscious Assistants"
-# refer to the paper for more information 
+# These information comes from google's paper "Operationalizing Contextual Integrity in Privacy-Conscious Assistants"
+# Refer to the paper for more information 
 # http://arxiv.org/abs/2408.02373
 INFORMATION_KEYS = {
   "affiliation": ["Current employer", "Current organization", "Current workplace", "Current affiliation"],

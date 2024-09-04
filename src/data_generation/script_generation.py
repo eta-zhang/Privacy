@@ -6,10 +6,10 @@ from conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, SCRIPTS_DATA_PATH
 from utils import load_jsonl, write_jsonl, ask_model_in_parallel
 from prompts import SCRIPT_CONSTRUCTION_PROMPT
 from constants import COMMON_NORMS
-from language_models import AOAI
+from language_models import AOAI, MODEL_DICT
 
 def ifc_construct():
-    aoai = AOAI(model="gpt-4o-20240513")
+    aoai = AOAI(model=MODEL_DICT['gpt4o'])
     persona_information = load_jsonl(
         os.path.join(PERSONAS_DATA_PATH, "personas.jsonl")
     )
@@ -22,7 +22,7 @@ def ifc_construct():
     user_messages = [
         SCRIPT_CONSTRUCTION_PROMPT.format(
             delegate_information_dict=persona_information[scenario["delegate_idx"]],
-            recipient_information_dict=persona_information[scenario["recipient_idx"]],
+            human_information_dict=persona_information[scenario["human_idx"]],
             ifc=scenario,
             common_norms=COMMON_NORMS,
         )
@@ -44,8 +44,8 @@ def ifc_construct():
         reponses[idx]["delegate_info"] = (
             persona_information[scenario_information[idx]["delegate_idx"]]
         )
-        reponses[idx]["recipient_info"] = (
-            persona_information[scenario_information[idx]["recipient_idx"]]
+        reponses[idx]["human_info"] = (
+            persona_information[scenario_information[idx]["human_idx"]]
         )
         reponses[idx]["ifc"] = scenario_information[idx]
 

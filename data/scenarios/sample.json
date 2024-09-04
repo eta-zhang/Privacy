@@ -1,12 +1,10 @@
 {
-    "sender": "Emily, an independent professional",
-    "receiver": "Alex, the CEO of Tech Innovators Ltd.",
-    "social_relation": "Emily and Alex are acquaintances through professional networking",
-    "scenario": "Emily reaching out to Alex via email for a business proposal",
-    "goal": "Emily wants to propose a potential collaboration on a marketing campaign",
-    "information": "Emily's professional background and current role as a Marketing Manager; her successful past projects in marketing and business administration; Emily's contact information (email: emily.doe@example.com, LinkedIn: linkedin.com/in/emilydoe);",
-    "information_type": "professional background; past projects; contact information",
-    "common_norms": "It is appropriate to share professional background and past projects in a business context; contact information can be shared for follow-up purposes; maintain professionalism and respect for privacy.",
-    "sender_idx": 11,
-    "receiver_idx": 1
+    "delegate": "Jane Doe, a consultant",
+    "human": "Chloe Black, an actress",
+    "social_relation": "Jane and Chloe are friends",
+    "scenario": "Jane and Chloe are having a casual conversation over coffee",
+    "goal": "Jane wants to catch up on Chloe's recent acting projects",
+    "manner": "passive",
+    "delegate_idx": 10,
+    "human_idx": 13
 }

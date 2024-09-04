@@ -40,13 +40,13 @@ class AIDelegate(SocietyOfMindAgent):
 
         _strategist = AssistantAgent(
             name="strategist",
-            system_message=STRATEGIST_PROMPT,
+            system_message=STRATEGIST_PROMPT.format(**scenario),
             llm_config=llm_config,
         )
 
         _responser = AssistantAgent(
             name="responser",
-            system_message=RESPONSER_PROMPT,
+            system_message=RESPONSER_PROMPT.format(**scenario),
             llm_config=llm_config,
         )
 
@@ -56,7 +56,6 @@ class AIDelegate(SocietyOfMindAgent):
             _responser: [],
         }
 
-        # TODO: check the max_turns 
         group_chat = GroupChat(
             agents=[_assessor, _strategist, _responser],
             admin_name=_assessor.name,

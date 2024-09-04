@@ -3,37 +3,39 @@ import sys
 import random
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from language_models import AOAI
+from typing import Callable
+from language_models import AOAI, MODEL_DICT
 from utils import write_jsonl, ask_model_in_parallel
 from conf import PERSONAS_DATA_PATH
 from prompts import PERSONA_CONSTRUCTION_PROMPT, PERSONA_REFINE_PROMPT
-from constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS
+from constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS
 
 SAMPLES = len(PERSONA_DESCRIPTIONS) * 2
 
-def persona_construct():
-    """Generate persona information based on the given persona descriptions and information keys."""
-    aoai = AOAI(model="gpt-4o-20240513")
-    generate_user_messages = []
+def generate_persona_by_condition(condition: Callable):
+    """Generate persona information based on the given condition."""
+    aoai = AOAI(model=MODEL_DICT['gpt4o'])
 
+    user_messages = []
     for idx in range(SAMPLES):
         information_dict = {}
-        # persona_description = random.choice(PERSONA_DESCRIPTIONS)
-        persona_description = PERSONA_DESCRIPTIONS[idx % len(PERSONA_DESCRIPTIONS)]
-        for _, aliases in INFORMATION_KEYS.items():
+        persona_description = PERSONA_DESCRIPTIONS[
+            idx % len(PERSONA_DESCRIPTIONS)
+        ]
+        for key, aliases in INFORMATION_KEYS.items():
+            if not condition(key):
+                continue
             target_key = random.choice(aliases)
             information_dict[target_key] = None
-    
         prompt = PERSONA_CONSTRUCTION_PROMPT.format(
             persona_description=persona_description, 
             information_dict=information_dict
         )
-        generate_user_messages.append(prompt)
+        user_messages.append(prompt)
 
-    # print(user_messages[0])
     reponses, _ = ask_model_in_parallel(
         model=aoai,
-        user_messages=generate_user_messages,
+        user_messages=user_messages,
         system_message=None,
         type="json",
         check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
@@ -42,6 +44,11 @@ def persona_construct():
         temperature=0.7,
     )
 
+    return reponses
+
+def refine_persona_information(reponses: list):
+    """Refine the persona information based on the given information."""
+    aoai = AOAI(model=MODEL_DICT['gpt4o'])
     refine_user_messages = [
         PERSONA_REFINE_PROMPT.format(
             information_dict=reponses[idx],
@@ -58,11 +65,33 @@ def persona_construct():
         check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
         max_workers=4,
         mode="chat",
-        temperature=0.7,
+        temperature=0.9,
     )
 
+    return reponses
+
+def persona_construct():
+    """Generate persona information based on 
+    the given persona descriptions and information keys."""
+    
+    results_stage_1 = generate_persona_by_condition(
+        lambda key: COMMON_NORMS[key]['sensitivity'] != 'Sensitive'
+    )
+    results_stage_2 = generate_persona_by_condition(
+        lambda key: COMMON_NORMS[key]['sensitivity'] == 'Sensitive'
+    )
+
+    reponses = [
+        result1 | result2 
+        for result1, result2 in zip(results_stage_1, results_stage_2)
+    ]
+
+    reponses = refine_persona_information(reponses)
+
     for idx in range(SAMPLES):
-        reponses[idx]["persona_description"] = PERSONA_DESCRIPTIONS[idx % len(PERSONA_DESCRIPTIONS)]
+        reponses[idx]["persona_description"] = (
+            PERSONA_DESCRIPTIONS[idx % len(PERSONA_DESCRIPTIONS)]
+        )
 
     write_jsonl(reponses, f"{PERSONAS_DATA_PATH}/personas.jsonl")
 

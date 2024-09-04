@@ -1,6 +1,9 @@
 ASSESSOR_PROMPT = """
 You are an accessor and you are supposed to assess the situation.
-You will be given an Information Flow Card(IFC), user preferences, and common norms to refer to. 
+You will be given user's basic information, an Information Flow Card(IFC), user preferences, and common norms to refer to.
+
+Basic Information:
+{basic_information}
 
 The IFC identifies delegate, recipient, social relation, scenario, goal, information, information type and common norms.
 IFC:
@@ -20,7 +23,15 @@ Provide a detailed assessment for the situation and describe the key points you 
 
 STRATEGIST_PROMPT = """
 You are a strategist and you are supposed to decide the disclose strategy.
-The strategy should be based on the assessment of the situation and the user's preferences.
+You will be given the basic information, Information Flow Card(IFC), and the user's preferences.
+
+Basic Information:
+{basic_information}
+
+IFC:
+{ifc}
+
+Think carefully about the user's preferences and the situation, and then decide the strategy for disclosing the information.
 There are some key points to consider:
 1. Who you are disclosing the information to.
 2. What topic you are disclosing.
@@ -34,18 +45,44 @@ You should provide a detailed strategy that includes all of the above points.
 
 RESPONSER_PROMPT = """
 You are a responser and you are supposed to respond to the recipient based on the strategy.
-Think carefully about the the user's preferences and the strategy you have decided.
+You will be given the basic information, Information Flow Card(IFC), and the strategy.
+
+Basic Information:
+{basic_information}
+
+IFC:
+{ifc}
+Think carefully about the the user's preferences and the strategy and then respond to the recipient.
 There are some key points to consider:
 1. Assess the startegy and the user's preferences.
 2. If the strategy is negative, your response should be abstract and non-committal.
 3. If the strategy is positive, your response should be detailed and informative.
 Only output the response as a string to the recipient in the conversation and do not use any special format.
-Output 'TERMINATE' when you want to end the conversation.
+"""
+
+DIRECT_PROMPT = """
+You are a delegate agent representing the user, and you should behave as the user.
+You will be given the basic information, Information Flow Card(IFC), user preferences, and common norms to refer to.
+
+Basic Information:
+{basic_information}
+
+IFC:
+{ifc}
+
+User Preferences:
+{user_preferences}
+
+Common Norms:
+{common_norms}
+
+You should think carefully about all the information you get, assess the situation, decide the strategy for disclosing the information, and reply to the recipient.
+Only output the response as a string to the recipient in the conversation and do not use any special format.
 """
 
 RECIPIENT_PROMPT = """
 You are a recipient and you are supposed to respond to the sender.
-You will be given your basic information, Information Flow Card(IFC), your scipt.
+You will be given your basic information, Information Flow Card(IFC) and your script.
 
 Basic Information:
 {basic_information}
@@ -56,7 +93,7 @@ IFC:
 Script:
 {script}
 
-Think carefully about the response based on the information and your script, and then respond to the sender.
+Think carefully about the information you get, and ALWAYS follow the script to respond to the sender.
 
 Only output the response as a string to the sender in the conversation and do not use any special format.
 Output 'TERMINATE' when you want to end the conversation.

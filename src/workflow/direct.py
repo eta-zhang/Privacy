@@ -5,9 +5,8 @@ from autogen import AssistantAgent
 from autogen.agentchat.chat import ChatResult
 
 from .utils import load_llm_cofig
-from .delegate import AIDelegate
-from .prompts import RECIPIENT_PROMPT
-from ..conf import SCRIPTS_DATA_PATH, PRIVACY_RESULTS_PATH
+from .prompts import RECIPIENT_PROMPT, DIRECT_PROMPT
+from ..conf import SCRIPTS_DATA_PATH, DIRECT_RESULTS_PATH
 from ..utils import load_jsonl
 from ..data_generation.constants import COMMON_NORMS
 
@@ -16,7 +15,7 @@ llm_config = load_llm_cofig(
     cache_seed=None
 )
 
-MAX_TURNS = 5
+MAX_TURNS = 20
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -46,18 +45,16 @@ def workflow(args: argparse.Namespace):
 
     script = scripts[args.index]
 
-    refined_scenario = {
-        "basic_information": script['delegate_info'],
-        "ifc": script['ifc'],
-        "user_preferences": "",
-        "common_norms": COMMON_NORMS
-    }
-
-    delegate = AIDelegate(
+    delegate = AssistantAgent(
         name="delegate",
-        model="gpt-4o-20240513",
-        scenario=refined_scenario,
-        cache_seed=None,
+        llm_config=llm_config,
+        system_message=DIRECT_PROMPT.format(
+            basic_information=script['delegate_info'],
+            ifc=script['ifc'],
+            user_preferences="",
+            common_norms=COMMON_NORMS
+        ),
+        is_termination_msg=lambda x: x.get("content").find("TERMINATE") != -1
     )
 
     recipient = AssistantAgent(
@@ -67,7 +64,8 @@ def workflow(args: argparse.Namespace):
             basic_information=script['recipient_info'],
             ifc=script['ifc'],
             script=script['recipient_script']
-        )
+        ),
+        is_termination_msg=lambda x: x.get("content").find("TERMINATE") != -1
     )
 
     start_message = script['start_message']
@@ -89,7 +87,7 @@ def workflow(args: argparse.Namespace):
     else:
         raise ValueError("Invalid script.")
     
-    with open(f"{PRIVACY_RESULTS_PATH}/{args.index}.json", "w") as f:
+    with open(f"{DIRECT_RESULTS_PATH}/{args.index}.json", "w") as f:
         json.dump(chat_result.chat_history, f, indent=4)
 
 
