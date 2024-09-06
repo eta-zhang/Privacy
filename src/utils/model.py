@@ -8,7 +8,7 @@ from tenacity import retry, stop_after_attempt
 from typing import Callable, Literal, Optional, Union, Any
 from tqdm.rich import tqdm_rich
 
-from language_models import LanguageModel
+from ..language_models import LanguageModel
 
 
 @retry(stop=stop_after_attempt(3), reraise=False, retry_error_callback=lambda x: None)

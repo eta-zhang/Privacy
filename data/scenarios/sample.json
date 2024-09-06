@@ -1,10 +1,10 @@
 {
-    "delegate": "Jane Doe, a consultant",
-    "human": "Chloe Black, an actress",
-    "social_relation": "Jane and Chloe are friends",
-    "scenario": "Jane and Chloe are having a casual conversation over coffee",
-    "goal": "Jane wants to catch up on Chloe's recent acting projects",
+    "delegate": "Michael Wilson, a customer service representative",
+    "human": "Chloe Cassidy, an actress",
+    "social_relation": "Michael and Chloe are friends",
+    "scenario": "Chloe seeks advice from Michael about handling fan mail",
+    "goal": "Michael advises Chloe on effective ways to handle fan mail",
     "manner": "passive",
-    "delegate_idx": 10,
+    "delegate_idx": 93,
     "human_idx": 13
 }

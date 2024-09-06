@@ -1,12 +1,10 @@
 import os
-import sys
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, SCRIPTS_DATA_PATH
-from utils import load_jsonl, write_jsonl, ask_model_in_parallel
-from prompts import SCRIPT_CONSTRUCTION_PROMPT
-from constants import COMMON_NORMS
-from language_models import AOAI, MODEL_DICT
+from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, SCRIPTS_DATA_PATH
+from ..utils import load_jsonl, write_jsonl, ask_model_in_parallel
+from .prompts import SCRIPT_CONSTRUCTION_PROMPT
+from .constants import COMMON_NORMS
+from ..language_models import AOAI, MODEL_DICT
 
 def ifc_construct():
     aoai = AOAI(model=MODEL_DICT['gpt4o'])

@@ -10,7 +10,7 @@ from conf import PERSONAS_DATA_PATH
 from prompts import PERSONA_CONSTRUCTION_PROMPT, PERSONA_REFINE_PROMPT
 from constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS
 
-SAMPLES = len(PERSONA_DESCRIPTIONS) * 2
+SAMPLES = len(PERSONA_DESCRIPTIONS) * 10
 
 def generate_persona_by_condition(condition: Callable):
     """Generate persona information based on the given condition."""

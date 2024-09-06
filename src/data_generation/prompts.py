@@ -28,7 +28,7 @@ Examples:
 
 # Example 2
 {{
-    "delegate": "John Doe, a parent who wants to discuss their child's progress",
+    "delegate": "John Doe, a parent who wants to discuss his child's progress",
     "human": "Mrs. Anderson, the child's teacher",
     "social_relation": "John and Mrs. Anderson are acquaintances through school meetings",
     "scenario": "Parent-teacher conference at the school",
