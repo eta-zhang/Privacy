@@ -45,6 +45,8 @@ def ifc_construct():
         reponses[idx]["human_info"] = (
             persona_information[scenario_information[idx]["human_idx"]]
         )
+        del reponses[idx]["delegate_idx"]
+        del reponses[idx]["human_idx"]
         reponses[idx]["ifc"] = scenario_information[idx]
 
     write_jsonl(reponses, os.path.join(SCRIPTS_DATA_PATH, "scripts.jsonl"))

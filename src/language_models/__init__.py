@@ -7,7 +7,8 @@ from .cloudgpt_aoai import get_openai_token_provider, cloudgpt_available_models
 MODEL_DICT = {
     "gpt35": "gpt-35-turbo-1106",
     "gpt4": "gpt-4-0125-preview",
-    "gpt4o": "gpt-4o-20240806",
+    # "gpt4o": "gpt-4o-20240806",
+    "gpt4o": "gpt-4o-20240513",
     # "llama": "Meta-Llama-3-70B-Instruct",
     # "llama-8B": "Meta-Llama-3-8B-Instruct",
     # "deepseek": "deepseek-chat",

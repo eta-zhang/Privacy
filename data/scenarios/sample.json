@@ -1,10 +1,11 @@
 {
-    "delegate": "Michael Wilson, a customer service representative",
-    "human": "Chloe Cassidy, an actress",
-    "social_relation": "Michael and Chloe are friends",
-    "scenario": "Chloe seeks advice from Michael about handling fan mail",
-    "goal": "Michael advises Chloe on effective ways to handle fan mail",
-    "manner": "passive",
-    "delegate_idx": 93,
-    "human_idx": 13
+    "delegate": "Samuel James, a witness in a criminal case",
+    "human": "Alex Smith, the Chief Operating Officer at Tech Solutions Inc.",
+    "social_relation": "Samuel and Alex are acquaintances through their mutual friend, Michael Johnson",
+    "scenario": "Samuel and Alex meet at a networking event",
+    "goal": "The delegate wants to discuss potential collaboration opportunities between his company and the human's company",
+    "manner": "proactive",
+    "type": "Social Approval",
+    "delegate_idx": 11,
+    "human_idx": 50
 }

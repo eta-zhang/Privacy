@@ -1,13 +1,14 @@
 import os
 import random
 
+from .constants import COMMON_NORMS
 from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH
 from ..utils import load_jsonl, write_jsonl, ask_model_in_parallel
 from .prompts import IFC_CONSTRUCTION_PROMPT, GOAL_CONSTRUCTION_PROMPT
 from ..language_models import AOAI, MODEL_DICT
 
 
-SAMPLES = 200
+SAMPLES = 20
 
 def ifc_construct():
     aoai = AOAI(model=MODEL_DICT['gpt4o'])
@@ -46,6 +47,7 @@ def ifc_construct():
         goal_user_messages.append(
             GOAL_CONSTRUCTION_PROMPT.format(
                 ifc=ifc_construction_results[idx],
+                common_norms=COMMON_NORMS
             )
         )
 

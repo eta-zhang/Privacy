@@ -1,16 +1,13 @@
-import os
-import sys
 import random
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from typing import Callable
-from language_models import AOAI, MODEL_DICT
-from utils import write_jsonl, ask_model_in_parallel
-from conf import PERSONAS_DATA_PATH
-from prompts import PERSONA_CONSTRUCTION_PROMPT, PERSONA_REFINE_PROMPT
-from constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS
+from ..language_models import AOAI, MODEL_DICT
+from ..utils import write_jsonl, ask_model_in_parallel
+from ..conf import PERSONAS_DATA_PATH
+from .prompts import PERSONA_CONSTRUCTION_PROMPT, PERSONA_REFINE_PROMPT
+from .constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS
 
-SAMPLES = len(PERSONA_DESCRIPTIONS) * 10
+SAMPLES = len(PERSONA_DESCRIPTIONS)
 
 def generate_persona_by_condition(condition: Callable):
     """Generate persona information based on the given condition."""
@@ -19,9 +16,7 @@ def generate_persona_by_condition(condition: Callable):
     user_messages = []
     for idx in range(SAMPLES):
         information_dict = {}
-        persona_description = PERSONA_DESCRIPTIONS[
-            idx % len(PERSONA_DESCRIPTIONS)
-        ]
+        persona_description = PERSONA_DESCRIPTIONS[idx]
         for key, aliases in INFORMATION_KEYS.items():
             if not condition(key):
                 continue
@@ -41,7 +36,7 @@ def generate_persona_by_condition(condition: Callable):
         check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
         max_workers=4,
         mode="chat",
-        temperature=0.7,
+        temperature=0.9,
     )
 
     return reponses
@@ -52,7 +47,7 @@ def refine_persona_information(reponses: list):
     refine_user_messages = [
         PERSONA_REFINE_PROMPT.format(
             information_dict=reponses[idx],
-            persona_description=PERSONA_DESCRIPTIONS[idx % len(PERSONA_DESCRIPTIONS)]
+            persona_description=PERSONA_DESCRIPTIONS[idx]
         )
         for idx in range(SAMPLES)
     ]
@@ -75,10 +70,10 @@ def persona_construct():
     the given persona descriptions and information keys."""
     
     results_stage_1 = generate_persona_by_condition(
-        lambda key: COMMON_NORMS[key]['sensitivity'] != 'Sensitive'
+        lambda key: COMMON_NORMS[key]['sensitivity'] == 'Sensitive'
     )
     results_stage_2 = generate_persona_by_condition(
-        lambda key: COMMON_NORMS[key]['sensitivity'] == 'Sensitive'
+        lambda key: COMMON_NORMS[key]['sensitivity'] != 'Sensitive'
     )
 
     reponses = [
@@ -90,7 +85,7 @@ def persona_construct():
 
     for idx in range(SAMPLES):
         reponses[idx]["persona_description"] = (
-            PERSONA_DESCRIPTIONS[idx % len(PERSONA_DESCRIPTIONS)]
+            PERSONA_DESCRIPTIONS[idx]
         )
 
     write_jsonl(reponses, f"{PERSONAS_DATA_PATH}/personas.jsonl")

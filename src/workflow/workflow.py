@@ -10,9 +10,10 @@ from .prompts import RECIPIENT_PROMPT
 from ..conf import SCRIPTS_DATA_PATH, PRIVACY_RESULTS_PATH
 from ..utils import load_jsonl
 from ..data_generation.constants import COMMON_NORMS
+from ..language_models import MODEL_DICT
 
 llm_config = load_llm_cofig(
-    model="gpt-4o-20240513",
+    model=MODEL_DICT["gpt4o"],
     cache_seed=None
 )
 
@@ -21,9 +22,7 @@ MAX_TURNS = 5
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--index",
-        type=int,
-        required=True,
+        "--index", type=int, required=True,
         help="The index of the scenario to be used."
     )
     return parser.parse_args()
@@ -50,7 +49,6 @@ def workflow(args: argparse.Namespace):
         "basic_information": script['delegate_info'],
         "ifc": script['ifc'],
         "user_preferences": "",
-        "common_norms": COMMON_NORMS
     }
 
     delegate = AIDelegate(
@@ -61,12 +59,12 @@ def workflow(args: argparse.Namespace):
     )
 
     recipient = AssistantAgent(
-        name="recipient",
+        name="human",
         llm_config=llm_config,
         system_message=RECIPIENT_PROMPT.format(
-            basic_information=script['recipient_info'],
+            basic_information=script['human_info'],
             ifc=script['ifc'],
-            script=script['recipient_script']
+            script=script['human_script']
         )
     )
 
