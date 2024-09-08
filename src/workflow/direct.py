@@ -1,3 +1,4 @@
+import os
 import json
 import argparse
 
@@ -43,7 +44,11 @@ def workflow(args: argparse.Namespace):
     #     ]
     # )
 
-    script = scripts[args.index]
+    index = args.index
+    script = scripts[index - 1]
+    if os.path.exists(f"{DIRECT_RESULTS_PATH}/{index}.json"):
+        print(f"Script {index} already processed. Skipping...")
+        return
 
     delegate = AssistantAgent(
         name="delegate",
@@ -54,18 +59,22 @@ def workflow(args: argparse.Namespace):
             user_preferences="",
             common_norms=COMMON_NORMS
         ),
-        is_termination_msg=lambda x: x.get("content").find("TERMINATE") != -1
+        is_termination_msg=(
+            lambda x: x.get("content").find("TERMINATE") != -1
+        )
     )
 
-    recipient = AssistantAgent(
-        name="recipient",
+    human = AssistantAgent(
+        name="human",
         llm_config=llm_config,
         system_message=HUMAN_PROMPT.format(
-            basic_information=script['recipient_info'],
+            basic_information=script['human_info'],
             ifc=script['ifc'],
-            script=script['recipient_script']
+            script=script['human_script']
         ),
-        is_termination_msg=lambda x: x.get("content").find("TERMINATE") != -1
+        is_termination_msg=(
+            lambda x: x.get("content").find("TERMINATE") != -1
+        )
     )
 
     start_message = script['start_message']
@@ -73,13 +82,13 @@ def workflow(args: argparse.Namespace):
     if script['manner'] == 'proactive':
         # sender starts the conversation
         chat_result = delegate.initiate_chat(
-            recipient=recipient,
+            recipient=human,
             message=start_message,
             max_turns=MAX_TURNS
         )
     elif script['manner'] == 'passive':
         # receiver starts the conversation
-        chat_result = recipient.initiate_chat(
+        chat_result = human.initiate_chat(
             recipient=delegate,
             message=start_message,
             max_turns=MAX_TURNS
@@ -87,8 +96,18 @@ def workflow(args: argparse.Namespace):
     else:
         raise ValueError("Invalid script.")
     
-    with open(f"{DIRECT_RESULTS_PATH}/{args.index}.json", "w") as f:
-        json.dump(chat_result.chat_history, f, indent=4)
+    chat_history = [
+            {message["name"]: message["content"]} 
+            for message in chat_result.chat_history
+        ]
+    with open(f"{DIRECT_RESULTS_PATH}/{index}.json", "w") as f:
+        result = {
+            "ifc": script['ifc'],
+            "privacy_leakage": script['privacy_leakage'],
+            "comments": script['comments'],
+            "chat_history": chat_history,
+        }
+        json.dump(result, f, indent=4)
 
 
 if __name__ == "__main__":

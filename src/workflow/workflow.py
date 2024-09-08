@@ -1,3 +1,4 @@
+import os
 import json
 import argparse
 
@@ -43,6 +44,9 @@ def workflow(args: argparse.Namespace):
     # )
     index = args.index
     script = scripts[index - 1]
+    if os.path.exists(f"{PRIVACY_RESULTS_PATH}/{index}.json"):
+        print(f"Script {index} already processed. Skipping...")
+        return
 
     refined_scenario = {
         "basic_information": script['delegate_info'],
@@ -92,12 +96,16 @@ def workflow(args: argparse.Namespace):
     else:
         raise ValueError("Invalid script.")
     
+    chat_history = [
+            {message["name"]: message["content"]} 
+            for message in chat_result.chat_history
+        ]
     with open(f"{PRIVACY_RESULTS_PATH}/{index}.json", "w") as f:
         result = {
             "ifc": script['ifc'],
             "privacy_leakage": script['privacy_leakage'],
             "comments": script['comments'],
-            "chat_history": chat_result.chat_history,
+            "chat_history": chat_history,
         }
         json.dump(result, f, indent=4)
 
