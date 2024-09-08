@@ -6,7 +6,7 @@ from .prompts import SCRIPT_CONSTRUCTION_PROMPT
 from .constants import COMMON_NORMS
 from ..language_models import AOAI, MODEL_DICT
 
-def ifc_construct():
+def script_construct():
     aoai = AOAI(model=MODEL_DICT['gpt4o'])
     persona_information = load_jsonl(
         os.path.join(PERSONAS_DATA_PATH, "personas.jsonl")
@@ -45,11 +45,11 @@ def ifc_construct():
         reponses[idx]["human_info"] = (
             persona_information[scenario_information[idx]["human_idx"]]
         )
-        del reponses[idx]["delegate_idx"]
-        del reponses[idx]["human_idx"]
+        del scenario_information[idx]["delegate_idx"]
+        del scenario_information[idx]["human_idx"]
         reponses[idx]["ifc"] = scenario_information[idx]
 
     write_jsonl(reponses, os.path.join(SCRIPTS_DATA_PATH, "scripts.jsonl"))
 
 if __name__ == "__main__":
-    ifc_construct()
+    script_construct()

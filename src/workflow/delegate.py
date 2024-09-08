@@ -14,6 +14,7 @@ class AIDelegate(SocietyOfMindAgent):
         scenario: dict[str, str],
         max_turns: int = 4,
         cache_seed: Optional[int] = None,
+        is_termination_msg: Optional[Callable[[dict], bool]] = None,
         **kwargs
     ):
         """
@@ -74,5 +75,6 @@ class AIDelegate(SocietyOfMindAgent):
             chat_manager=group_chat_manager,
             llm_config=llm_config,
             human_input_mode="NEVER",
+            is_termination_msg=is_termination_msg,
             **kwargs
         )

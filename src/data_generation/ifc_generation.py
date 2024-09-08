@@ -8,7 +8,7 @@ from .prompts import IFC_CONSTRUCTION_PROMPT, GOAL_CONSTRUCTION_PROMPT
 from ..language_models import AOAI, MODEL_DICT
 
 
-SAMPLES = 20
+SAMPLES = 100
 
 def ifc_construct():
     aoai = AOAI(model=MODEL_DICT['gpt4o'])
@@ -39,7 +39,7 @@ def ifc_construct():
         check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
         max_workers=4,
         mode="chat",
-        temperature=0.9,
+        temperature=0.7,
     )
 
     goal_user_messages = []
@@ -59,7 +59,7 @@ def ifc_construct():
         check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
         max_workers=4,
         mode="chat",
-        temperature=0.9,
+        temperature=0.7,
     )
 
     responses = [

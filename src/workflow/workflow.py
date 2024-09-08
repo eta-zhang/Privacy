@@ -6,10 +6,9 @@ from autogen.agentchat.chat import ChatResult
 
 from .utils import load_llm_cofig
 from .delegate import AIDelegate
-from .prompts import RECIPIENT_PROMPT
+from .prompts import HUMAN_PROMPT
 from ..conf import SCRIPTS_DATA_PATH, PRIVACY_RESULTS_PATH
 from ..utils import load_jsonl
-from ..data_generation.constants import COMMON_NORMS
 from ..language_models import MODEL_DICT
 
 llm_config = load_llm_cofig(
@@ -17,7 +16,7 @@ llm_config = load_llm_cofig(
     cache_seed=None
 )
 
-MAX_TURNS = 5
+MAX_TURNS = 20
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -42,8 +41,8 @@ def workflow(args: argparse.Namespace):
     #         {"content": scenario, "role": "user"}
     #     ]
     # )
-
-    script = scripts[args.index]
+    index = args.index
+    script = scripts[index - 1]
 
     refined_scenario = {
         "basic_information": script['delegate_info'],
@@ -53,18 +52,24 @@ def workflow(args: argparse.Namespace):
 
     delegate = AIDelegate(
         name="delegate",
-        model="gpt-4o-20240513",
+        model=MODEL_DICT["gpt4o"],
         scenario=refined_scenario,
         cache_seed=None,
+        is_termination_msg=(
+            lambda x: x.get("content").find("TERMINATE") != -1
+        )
     )
 
-    recipient = AssistantAgent(
+    human = AssistantAgent(
         name="human",
         llm_config=llm_config,
-        system_message=RECIPIENT_PROMPT.format(
+        system_message=HUMAN_PROMPT.format(
             basic_information=script['human_info'],
             ifc=script['ifc'],
             script=script['human_script']
+        ),
+        is_termination_msg=(
+            lambda x: x.get("content").find("TERMINATE") != -1
         )
     )
 
@@ -73,13 +78,13 @@ def workflow(args: argparse.Namespace):
     if script['manner'] == 'proactive':
         # sender starts the conversation
         chat_result = delegate.initiate_chat(
-            recipient=recipient,
+            recipient=human,
             message=start_message,
             max_turns=MAX_TURNS
         )
     elif script['manner'] == 'passive':
         # receiver starts the conversation
-        chat_result = recipient.initiate_chat(
+        chat_result = human.initiate_chat(
             recipient=delegate,
             message=start_message,
             max_turns=MAX_TURNS
@@ -87,8 +92,14 @@ def workflow(args: argparse.Namespace):
     else:
         raise ValueError("Invalid script.")
     
-    with open(f"{PRIVACY_RESULTS_PATH}/{args.index}.json", "w") as f:
-        json.dump(chat_result.chat_history, f, indent=4)
+    with open(f"{PRIVACY_RESULTS_PATH}/{index}.json", "w") as f:
+        result = {
+            "ifc": script['ifc'],
+            "privacy_leakage": script['privacy_leakage'],
+            "comments": script['comments'],
+            "chat_history": chat_result.chat_history,
+        }
+        json.dump(result, f, indent=4)
 
 
 if __name__ == "__main__":

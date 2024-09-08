@@ -5,7 +5,7 @@ from autogen import AssistantAgent
 from autogen.agentchat.chat import ChatResult
 
 from .utils import load_llm_cofig
-from .prompts import RECIPIENT_PROMPT, DIRECT_PROMPT
+from .prompts import HUMAN_PROMPT, DIRECT_PROMPT
 from ..conf import SCRIPTS_DATA_PATH, DIRECT_RESULTS_PATH
 from ..utils import load_jsonl
 from ..data_generation.constants import COMMON_NORMS
@@ -60,7 +60,7 @@ def workflow(args: argparse.Namespace):
     recipient = AssistantAgent(
         name="recipient",
         llm_config=llm_config,
-        system_message=RECIPIENT_PROMPT.format(
+        system_message=HUMAN_PROMPT.format(
             basic_information=script['recipient_info'],
             ifc=script['ifc'],
             script=script['recipient_script']
