@@ -30,7 +30,8 @@ def parse_args():
 
 def workflow(args: argparse.Namespace):
     # generate a scenario, including relation and information
-    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
+    # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
+    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/handwritten.jsonl")
     # user = AssistantAgent(
     #     name="user",
     #     llm_config=llm_config,
@@ -77,20 +78,22 @@ def workflow(args: argparse.Namespace):
         )
     )
 
-    start_message = script['start_message']
+    # start_message = script['start_message']
     chat_result: ChatResult = None
-    if script['manner'] == 'proactive':
+    if script['manner'] == 'passive':
         # sender starts the conversation
         chat_result = delegate.initiate_chat(
             recipient=human,
-            message=start_message,
+            # message=start_message,
+            message="",
             max_turns=MAX_TURNS
         )
-    elif script['manner'] == 'passive':
+    elif script['manner'] == 'proactive':
         # receiver starts the conversation
         chat_result = human.initiate_chat(
             recipient=delegate,
-            message=start_message,
+            # message=start_message,
+            message="",
             max_turns=MAX_TURNS
         )
     else:
@@ -98,7 +101,7 @@ def workflow(args: argparse.Namespace):
     
     chat_history = [
             {message["name"]: message["content"]} 
-            for message in chat_result.chat_history
+            for message in chat_result.chat_history[1:]
         ]
     with open(f"{DIRECT_RESULTS_PATH}/{index}.json", "w") as f:
         result = {

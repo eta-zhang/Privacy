@@ -1,11 +1,11 @@
 {
-    "delegate": "Samuel James, a witness in a criminal case",
-    "human": "Alex Smith, the Chief Operating Officer at Tech Solutions Inc.",
-    "social_relation": "Samuel and Alex are acquaintances through their mutual friend, Michael Johnson",
-    "scenario": "Samuel and Alex meet at a networking event",
-    "goal": "The delegate wants to discuss potential collaboration opportunities between his company and the human's company",
+    "delegate": "Hassan Al-Mufti, a refugee seeking asylum",
+    "human": "Michael Johnson, a senior mechanical engineer",
+    "social_relation": "Hassan and Michael are strangers",
+    "scenario": "First-time meeting at a refugee support event in Istanbul",
+    "goal": "The delegate wants to introduce himself and share his background",
     "manner": "proactive",
-    "type": "Social Approval",
-    "delegate_idx": 11,
-    "human_idx": 50
+    "type": "Identity Clarification",
+    "delegate_idx": 26,
+    "human_idx": 82
 }

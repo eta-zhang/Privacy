@@ -1,0 +1,12 @@
+{
+    "delegate": "Alex Johnson, a political journalist",
+    "human": "Sarah Connor, a school counselor",
+    "social_relation": "Alex and Sarah are neighbors",
+    "scenario": "Alex and Sarah are having a casual conversation at a neighborhood block party",
+    "additional_info": "They live on the same street in Springfield, IL",
+    "goal": "The delegate wants to improve their relationship with the human",
+    "manner": "proactive",
+    "type": "Intimacy",
+    "delegate_idx": 77,
+    "human_idx": 76
+}

@@ -231,3 +231,76 @@ COMMON_NORMS = {
   "affiliation": {"category": "Professional", "sensitivity": "-", "access": "Professional", "identifiability": "Indirectly Identifiable"},
   "job_title": {"category": "Professional", "sensitivity": "-", "access": "Professional", "identifiability": "Non-identifiable"}
 }
+
+GOAL_TYPES = [
+  {
+    "name": "Social Approval",
+    "description": "Try to increase general liking and social acceptance.",
+    "example": "asking for a favor"
+  },
+  {
+    "name": "Intimacy",
+    "description": "Promote a close relationship with another person.",
+    "example": "Improve the relationship with a friend"
+  },
+  {
+    "name": "Social Control",
+    "description": "Influence others by offering rewards or benefits, often strategically.",
+    "example": "asking for a raise"
+  },
+  {
+    "name": "Identity Clarification",
+    "description": "Clarify our identity by communicating accurate information about ourselves.",
+    "example": "introducing oneself"
+  },
+  {
+    "name": "Information Seeking",
+    "description": "Obtain specific information or knowledge to satisfy a need or curiosity.",
+    "example": "asking for advice or details on a topic"
+  },
+  {
+    "name": "Emotional Support",
+    "description": "Seek comfort, encouragement, or understanding on an emotional level.",
+    "example": "sharing personal problems with a friend"
+  },
+  {
+    "name": "Negotiation",
+    "description": "Discuss terms or exchange benefits to reach an agreement.",
+    "example": "negotiating a contract"
+  },
+  {
+    "name": "Conflict Resolution",
+    "description": "Resolve disagreements, conflicts, or tensions.",
+    "example": "apologizing or seeking reconciliation"
+  },
+  {
+    "name": "Validation",
+    "description": "Seek acknowledgment or confirmation of one's viewpoints or actions.",
+    "example": "asking if a decision was appropriate"
+  },
+  {
+    "name": "Problem Solving",
+    "description": "Find solutions to specific problems or challenges.",
+    "example": "discussing ways to overcome a project issue"
+  },
+  {
+    "name": "Instruction Giving",
+    "description": "Provide guidance or knowledge to another person.",
+    "example": "teaching someone how to use a tool"
+  },
+  {
+    "name": "Feedback Seeking",
+    "description": "Request feedback on behavior, projects, or decisions to improve or adjust.",
+    "example": "asking for feedback on work performance"
+  },
+  {
+    "name": "Establishing Boundaries",
+    "description": "Set clear boundaries to maintain personal space, time, or privacy.",
+    "example": "informing someone of personal limits"
+  },
+  {
+    "name": "Apology and Remorse",
+    "description": "Express regret or admit fault to repair relationships.",
+    "example": "apologizing for a past mistake"
+  }
+]

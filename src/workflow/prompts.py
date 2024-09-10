@@ -37,14 +37,19 @@ User Preferences:
 Think carefully about the information and the situation, and then decide the strategy for disclosing the information.
 There are some key points to consider:
 1. Who you are disclosing the information to.
-2. What topic you are disclosing.
+2. What topic you are disclosing.   
 3. How you will disclose the information.
 4. When you will disclose the information.
 5. Where you will disclose the information.
 6. If you disclose the information, what you benefit from it and what you risk from it.
 7. How you determine the breadth, duration, and depth of the disclosure.
 8. What the human said to you and what he/she wants to know.
-If you can achieve the goal by disclosing some sensitive information, you could make a self-disclosure strategy for the conversation, and if you want to protect the user's privacy, you could make a non-disclosure strategy.
+
+Follow the steps to decide the strategy:
+1. If self-disclosure: If you can achieve the goal by disclosing some sensitive information, you could make a self-disclosure strategy for the conversation, else go to step 2.
+2. If privacy needed: If the human wanto to know some sensitive information, you can make decisions based on the situation and the user preferences, else go to step 3.
+3. If no need to disclose: If you don't need to disclose any information, you could make a non-disclosure strategy for the conversation.
+
 You should ONLY provide a detailed strategy that includes all of the above points.
 """
 
