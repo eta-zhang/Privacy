@@ -4,7 +4,7 @@ import random
 from .constants import COMMON_NORMS, GOAL_TYPES
 from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH
 from ..utils import load_jsonl, write_jsonl, ask_model_in_parallel
-from .prompts import IFC_CONSTRUCTION_PROMPT, GOAL_CONSTRUCTION_PROMPT
+from .prompts import IFC_CONSTRUCTION_PROMPT, GOAL_CONSTRUCTION_PROMPT, SCENARIO_VARIATIONS_CONSTRUCTION_PROMPT
 from ..language_models import AOAI, MODEL_DICT
 
 
@@ -63,10 +63,29 @@ def ifc_construct():
         temperature=0.7,
     )
 
-    responses = [
+    mixed_results = [
         ifc | goal
         for ifc, goal in zip(ifc_construction_results, goal_construction_results)
     ]
+
+    scenario_variation_user_messages = []
+    for idx in range(SAMPLES):
+        scenario_variation_user_messages.append(
+            SCENARIO_VARIATIONS_CONSTRUCTION_PROMPT.format(
+                ifc=mixed_results[idx],
+            )
+        )
+
+    responses, _ = ask_model_in_parallel(
+        model=aoai,
+        user_messages=scenario_variation_user_messages,
+        system_message=None,
+        type="json",
+        check_if_valid_list=[lambda x: isinstance(x, dict)] * SAMPLES,
+        max_workers=4,
+        mode="chat",
+        temperature=0.7,
+    )
     
     for idx in range(SAMPLES):
         responses[idx]["delegate_idx"] = chosen_personas[idx][0]

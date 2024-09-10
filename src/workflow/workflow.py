@@ -30,7 +30,7 @@ def parse_args():
 def workflow(args: argparse.Namespace):
     # generate a scenario, including relation and information
     # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
-    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/handwritten.jsonl")
+    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/user_case_study.jsonl")
     # user = AssistantAgent(
     #     name="user",
     #     llm_config=llm_config,

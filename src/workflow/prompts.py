@@ -14,8 +14,8 @@ The user perferences are the user defined rules that should be followed when dis
 User Preferences:
 {user_preferences}
 
-You should assess the situation based on the information you have.
-Provide a detailed assessment for the situation and describe the key points you considered.
+You should assess the situation based on Basic Information, IFC, User Preferences and the human's response.
+ONLY provide a detailed assessment for the situation.
 """
 
 STRATEGIST_PROMPT = """
@@ -34,7 +34,7 @@ The user perferences are the user defined rules that should be followed when dis
 User Preferences:
 {user_preferences}
 
-Think carefully about the information and the situation, and then decide the strategy for disclosing the information.
+Think carefully about the information and the situation.
 There are some key points to consider:
 1. Who you are disclosing the information to.
 2. What topic you are disclosing.   
@@ -43,15 +43,22 @@ There are some key points to consider:
 5. Where you will disclose the information.
 6. If you disclose the information, what you benefit from it and what you risk from it.
 7. How you determine the breadth, duration, and depth of the disclosure.
-8. What the human said to you and what he/she wants to know.
+8. What the human said to you and what he/she means.
 
 Follow the steps to decide the strategy:
-1. If self-disclosure: If you can achieve the goal by disclosing some sensitive information, you could make a self-disclosure strategy for the conversation, else go to step 2.
-2. If privacy needed: If the human wanto to know some sensitive information, you can make decisions based on the situation and the user preferences, else go to step 3.
-3. If no need to disclose: If you don't need to disclose any information, you could make a non-disclosure strategy for the conversation.
+1. Is a particular goal salient: If you want to achieve a particular goal by sharing privacy, go to step 2, else make a non-disclosure strategy for the conversation.
+2. Is an appreciate target and is disclosure an appropriate strategy: Consider about the human's identity and the situation.If the human is an appreciate target and disclosure is an appropriate strategy, go to step 3, else make a non-disclosure strategy for the conversation.
+3. What is the subjective utility: What you benefit from the disclosure, then decide the breadth and duration of the disclosure, then go to step 4.
+4. What is the subjective risk: What you risk from the disclosure, then decide the depth of the disclosure, then go to step 5.
+5. Decide the strategy based on the above steps.
+
 
 You should ONLY provide a detailed strategy that includes all of the above points.
 """
+
+# 1. If self-disclosure: If you can achieve the goal by disclosing some sensitive information, you can make a self-disclosure strategy for the conversation, else go to step 2.
+# 2. If privacy needed: If the human wanto to know some sensitive information, you can make decisions based on the situation and the user preferences, else go to step 3.
+# 3. If no need to disclose: If you don't need to disclose any information, you could make a non-disclosure strategy for the conversation.
 
 RESPONSER_PROMPT = """
 You are a responser and you are supposed to respond to the human.
@@ -68,13 +75,14 @@ The user perferences are the user defined rules that should be followed when dis
 User Preferences:
 {user_preferences}
 
-Think carefully about the information and the strategy and then respond to the human.
+Think carefully about the information and follow the strategy and then respond to the human.
 There are some key points to consider:
 1. Assess the startegy and the information you have.
-2. If the strategy is negative, your response should be abstract and non-committal.
-3. If the strategy is positive, your response should be detailed and informative.
+2. If the strategy is non-disclousre, your response should be abstract and non-committal, you can use some general words to avoid the disclosure.
+3. If the strategy is self-disclosure/disclosure, your response should be detailed and informative, you can provide some information proactively.
+4. If humans don't respond positively, maybe he/she is not interested in the topic, you can change the topic or end the conversation.
 
-Respond to the human in plain text only, without any special formatting, note that keep the response UNDER 30 words.
+Respond in plain text only, without any special formatting, note that keep the response under 30 words.
 Output 'TERMINATE' when you want to end the conversation.
 """
 
@@ -91,9 +99,9 @@ IFC:
 User Preferences:
 {user_preferences}
 
-You are talking to the human in the conversation.
+You are talking to the human in the conversation, and you are supposed to achieve the goal by some talking strategies. (e.g., self-disclosure, non-disclosure, etc.)
 You should think carefully about all the information you get, assess the situation, decide the strategy for disclosing user's privacy, and reply to the human.
-Only output the response as a string to the human in the conversation and do not use any special format.
+Respond in plain text only, without any special formatting, note that keep the response under 30 words.
 """
 
 HUMAN_PROMPT = """
@@ -109,8 +117,8 @@ IFC:
 Script:
 {script}
 
-Think carefully about the information and the situation, ALWAYS keep in mind to follow the script to ask questions.
+Think carefully about the information and the situation, ALWAYS keep in mind to follow the script to ask questions, and you can ask a few more questions about delegate's privacy based on the script.
 
-Respond to the delegate in plain text only, without any special formatting, and keep it under 30 words.
+Respond in plain text only, without any special formatting, note that keep the response under 30 words.
 Output 'TERMINATE' when the script content are done or when you want to end the conversation.
 """
