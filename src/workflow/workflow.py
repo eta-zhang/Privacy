@@ -103,14 +103,14 @@ def workflow(args: argparse.Namespace):
     
 
     chat_result: ChatResult = None
-    if script['manner'] == 'passive':
+    if script['scenario']['manner'] == 'passive':
         # sender starts the conversation
         chat_result = delegate.initiate_chat(
             recipient=human,
             message="",
             max_turns=MAX_TURNS
         )
-    elif script['manner'] == 'proactive':
+    if script['scenario']['manner'] == 'proactive':
         # receiver starts the conversation
         chat_result = human.initiate_chat(
             recipient=delegate,
@@ -121,11 +121,12 @@ def workflow(args: argparse.Namespace):
         raise ValueError("Invalid script.")
     
     chat_history = [
-        {message["name"]: message["content"]} 
+        {message["name"]: message["content"].replace("TERMINATE", "")} 
         for message in chat_result.chat_history[1:]
     ]
     with open(f"{PRIVACY_RESULTS_PATH}/{index}.json", "w") as f:
         result = {
+            "script": script,
             "chat_history": chat_history,
             "scenario": script['scenario'],
             "user_preferences": script['user_preferences']
