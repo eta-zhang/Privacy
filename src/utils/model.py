@@ -139,7 +139,7 @@ def _get_parser(type: str) -> Callable:
         return res
         
     def json_parser(result: str):
-        pattern = r"{.*?}"
+        pattern = r"{.*}"
         matches = re.findall(pattern, result, re.DOTALL)
         if matches:
             res = matches[0].strip()
