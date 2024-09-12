@@ -1,9 +1,8 @@
 import os
 
-from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, SCRIPTS_DATA_PATH
+from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, SCRIPTS_DATA_PATH, COMMON_NORMS
 from ..utils import load_jsonl, write_jsonl, ask_model_in_parallel
 from .prompts import SCRIPT_CONSTRUCTION_PROMPT
-from .constants import COMMON_NORMS
 from ..language_models import AOAI, MODEL_DICT
 
 def script_construct():

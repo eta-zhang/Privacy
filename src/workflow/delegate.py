@@ -68,6 +68,7 @@ class AIDelegate(SocietyOfMindAgent):
 
         group_chat_manager = GroupChatManager(
             groupchat=group_chat,
+            system_message="Only repeat the last message.",
         )
 
         super().__init__(

@@ -304,3 +304,12 @@ GOAL_TYPES = [
     "example": "apologizing for a past mistake"
   }
 ]
+
+USER_PERSONALITY = {
+    "introverted": "The user is introverted and prefers to respond with vague or non-committal answers when confronted with sharp or challenging questions.",
+    "analytical": "The user is highly analytical and enjoys providing detailed, data-driven responses to even the simplest of inquiries.",
+    "outgoing": "The user is outgoing and often uses humor or light-hearted comments to engage in conversations, even when discussing serious topics.",
+    "assertive": "The user is assertive and direct, rarely hesitating to express strong opinions, and will reject inappropriate questions directly.",
+    "empathetic": "The user is empathetic and often tries to understand others' perspectives before responding, aiming for a balanced and diplomatic approach.",
+    "methodical": "The user is methodical and likes to take time before answering, often double-checking facts and considering various angles of a problem."
+}

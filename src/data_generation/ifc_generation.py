@@ -1,8 +1,7 @@
 import os
 import random
 
-from .constants import COMMON_NORMS, GOAL_TYPES
-from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH
+from ..conf import SCENARIOS_DATA_PATH, PERSONAS_DATA_PATH, COMMON_NORMS, GOAL_TYPES
 from ..utils import load_jsonl, write_jsonl, ask_model_in_parallel
 from .prompts import IFC_CONSTRUCTION_PROMPT, GOAL_CONSTRUCTION_PROMPT, SCENARIO_VARIATIONS_CONSTRUCTION_PROMPT
 from ..language_models import AOAI, MODEL_DICT

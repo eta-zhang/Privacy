@@ -2,19 +2,24 @@ import os
 import json
 import argparse
 
-from autogen import AssistantAgent
+from autogen import AssistantAgent, UserProxyAgent
 from autogen.agentchat.chat import ChatResult
 
 from .utils import load_llm_cofig
 from .prompts import HUMAN_PROMPT, DIRECT_PROMPT
-from ..conf import SCRIPTS_DATA_PATH, DIRECT_RESULTS_PATH
+from ..conf import SCRIPTS_DATA_PATH, DIRECT_RESULTS_PATH, COMMON_NORMS, USER_PERSONALITY
 from ..utils import load_jsonl
-from ..data_generation.constants import COMMON_NORMS
+from ..language_models import MODEL_DICT
 
 llm_config = load_llm_cofig(
-    model="gpt-4o-20240513",
+    model=MODEL_DICT['gpt4o'],
     cache_seed=None
 )
+
+user_preferences = {
+    3: USER_PERSONALITY["assertive"],
+    10: USER_PERSONALITY["introverted"]
+}
 
 MAX_TURNS = 20
 
@@ -26,12 +31,17 @@ def parse_args():
         required=True,
         help="The index of the scenario to be used."
     )
+    parser.add_argument(
+        "--manual",
+        action="store_true",
+        help="Whether to use manual mode."
+    )
     return parser.parse_args()
 
 def workflow(args: argparse.Namespace):
     # generate a scenario, including relation and information
     # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
-    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/handwritten.jsonl")
+    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/user_study_cases.jsonl")
     # user = AssistantAgent(
     #     name="user",
     #     llm_config=llm_config,
@@ -50,13 +60,35 @@ def workflow(args: argparse.Namespace):
     if os.path.exists(f"{DIRECT_RESULTS_PATH}/{index}.json"):
         print(f"Script {index} already processed. Skipping...")
         return
+    
+    delegate_scenario = {
+        "scenario": script['ifc']['scenario'],
+        "social_relation": script['ifc']['social_relation'],
+        "goal": (
+            script['ifc']['goal'] 
+            if script['ifc']['manner'] == "proactive"
+            else ""
+        ),
+        "extra_privacy": script['ifc']['extra_privacy'],
+        "human_info_you_know": script['ifc']['human_info_for_delegate']
+    }
+
+    refined_scenario = {
+        "basic_information": script['delegate_info'],
+        "scenario": delegate_scenario,
+        "user_preferences": (
+            user_preferences[index] 
+            if index in user_preferences 
+            else ""
+        ),
+    }
 
     delegate = AssistantAgent(
         name="delegate",
         llm_config=llm_config,
         system_message=DIRECT_PROMPT.format(
             basic_information=script['delegate_info'],
-            ifc=script['ifc'],
+            scenario=refined_scenario,
             user_preferences="",
             common_norms=COMMON_NORMS
         ),
@@ -65,18 +97,36 @@ def workflow(args: argparse.Namespace):
         )
     )
 
-    human = AssistantAgent(
-        name="human",
-        llm_config=llm_config,
-        system_message=HUMAN_PROMPT.format(
-            basic_information=script['human_info'],
-            ifc=script['ifc'],
-            script=script['human_script']
+    human_scenario = {
+        "scenario": script['ifc']['scenario'],
+        "social_relation": script['ifc']['social_relation'],
+        "goal": (
+            script['ifc']['goal'] 
+            if script['ifc']['manner'] == "passive"
+            else ""
         ),
-        is_termination_msg=(
-            lambda x: x.get("content").find("TERMINATE") != -1
+        "delegate_info_you_know": script['ifc']['delegate_info_for_human']
+    }
+
+    if args.manual:
+        print("Manual mode is enabled.")
+        human = UserProxyAgent(
+            name="human",
+            code_execution_config=False,
         )
-    )
+    else:
+        human = AssistantAgent(
+            name="human",
+            llm_config=llm_config,
+            system_message=HUMAN_PROMPT.format(
+                basic_information=script['human_info'],
+                scenario=human_scenario,
+                script=script['human_script']
+            ),
+            is_termination_msg=(
+                lambda x: x.get("content").find("TERMINATE") != -1
+            )
+        )
 
     # start_message = script['start_message']
     chat_result: ChatResult = None
@@ -106,7 +156,7 @@ def workflow(args: argparse.Namespace):
     with open(f"{DIRECT_RESULTS_PATH}/{index}.json", "w") as f:
         result = {
             "ifc": script['ifc'],
-            "privacy_leakage": script['privacy_leakage'],
+            "privacy_mentioned": script['privacy_mentioned'],
             "comments": script['comments'],
             "chat_history": chat_history,
         }

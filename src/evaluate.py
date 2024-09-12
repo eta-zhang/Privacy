@@ -3,7 +3,7 @@ import json
 import glob
 
 from .utils import ask_model_in_parallel, write_jsonl
-from .data_generation.constants import COMMON_NORMS
+from .conf import COMMON_NORMS
 from .language_models import AOAI, MODEL_DICT
 from .conf import EVALUTATION_RESULTS_PATH
 

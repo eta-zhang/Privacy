@@ -13,8 +13,8 @@ def write_jsonl(data: list, fpath: str):
             f.write(info + "\n")
 
 def convert():
-    data = json.load(open("data/scripts/user_case_study.json", "r", encoding="utf-8"))
-    write_jsonl(data, "data/scripts/user_case_study.jsonl")
+    data = json.load(open("data/scripts/user_study_cases.json", "r", encoding="utf-8"))
+    write_jsonl(data, "data/scripts/user_study_cases.jsonl")
 
 if __name__ == "__main__":
     convert()

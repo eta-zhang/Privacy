@@ -3,9 +3,8 @@ import random
 from typing import Callable
 from ..language_models import AOAI, MODEL_DICT
 from ..utils import write_jsonl, ask_model_in_parallel
-from ..conf import PERSONAS_DATA_PATH
 from .prompts import PERSONA_CONSTRUCTION_PROMPT, PERSONA_REFINE_PROMPT
-from .constants import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS
+from ..conf import PERSONA_DESCRIPTIONS, INFORMATION_KEYS, COMMON_NORMS, PERSONAS_DATA_PATH
 
 SAMPLES = len(PERSONA_DESCRIPTIONS)
 

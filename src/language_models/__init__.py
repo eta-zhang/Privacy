@@ -9,6 +9,7 @@ MODEL_DICT = {
     "gpt4": "gpt-4-0125-preview",
     # "gpt4o": "gpt-4o-20240806",
     "gpt4o": "gpt-4o-20240513",
+    "gpt4-turbo": "gpt-4-turbo-20240409",
     # "llama": "Meta-Llama-3-70B-Instruct",
     # "llama-8B": "Meta-Llama-3-8B-Instruct",
     # "deepseek": "deepseek-chat",

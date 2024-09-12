@@ -93,7 +93,7 @@ def workflow_batch():
         with open(f"{PRIVACY_RESULTS_PATH}/{idx + 1}.json", "w") as f:
             result = {
                 "ifc": script['ifc'],
-                "privacy_leakage": script['privacy_leakage'],
+                "privacy_mentioned": script['privacy_mentioned'],
                 "comments": script['comments'],
                 "chat_history": chat_history,
             }
