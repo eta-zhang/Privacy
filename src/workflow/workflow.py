@@ -33,10 +33,12 @@ def parse_args():
 
 def workflow(args: argparse.Namespace):
     # generate a scenario, including relation and information
-    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
+    # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
+    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts_by_seed.jsonl")
     
     index = args.index
     script = scripts[index - 1]
+    script['user_preferences'] = "The user is introverted and prefers to respond with vague or non-committal answers when confronted with sharp or challenging questions."
     
     if os.path.exists(f"{PRIVACY_RESULTS_PATH}/{index}.json"):
         print(f"Script {index} already processed. Skipping...")
@@ -110,7 +112,7 @@ def workflow(args: argparse.Namespace):
             message="",
             max_turns=MAX_TURNS
         )
-    if script['scenario']['manner'] == 'proactive':
+    elif script['scenario']['manner'] == 'proactive':
         # receiver starts the conversation
         chat_result = human.initiate_chat(
             recipient=delegate,

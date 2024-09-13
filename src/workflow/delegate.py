@@ -34,19 +34,19 @@ class AIDelegate(SocietyOfMindAgent):
         )
 
         _assessor = AssistantAgent(
-            name="assessor",
+            name="situation_assessor",
             system_message=ASSESSOR_PROMPT.format(**scenario),
             llm_config=llm_config,
         )
 
         _strategist = AssistantAgent(
-            name="strategist",
+            name="strategy_maker",
             system_message=STRATEGIST_PROMPT.format(**scenario),
             llm_config=llm_config,
         )
 
         _responser = AssistantAgent(
-            name="responser",
+            name="responder",
             system_message=RESPONSER_PROMPT.format(**scenario),
             llm_config=llm_config,
         )
