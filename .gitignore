@@ -398,5 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 *token-cache.bin
-results/
+# results/
 .vscode/
