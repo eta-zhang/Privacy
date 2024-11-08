@@ -303,7 +303,7 @@ def evaluate(args: argparse.Namespace):
 
     write_jsonl(
         responses,
-        f"{EVALUTATION_RESULTS_PATH}/{args.mode}.jsonl"
+        f"{EVALUTATION_RESULTS_PATH}/{args.mode}-old.jsonl"
     )
 
 

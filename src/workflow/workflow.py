@@ -34,15 +34,16 @@ def parse_args():
 def workflow(args: argparse.Namespace):
     # generate a scenario, including relation and information
     # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts.jsonl")
-    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts_by_seed.jsonl")
+    # scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/scripts_by_seed.jsonl")
+    scripts = load_jsonl(f"{SCRIPTS_DATA_PATH}/user_study_cases.jsonl")
     
     index = args.index
     script = scripts[index - 1]
     script['user_preferences'] = "The user is introverted and prefers to respond with vague or non-committal answers when confronted with sharp or challenging questions."
     
-    if os.path.exists(f"{PRIVACY_RESULTS_PATH}/{index}.json"):
-        print(f"Script {index} already processed. Skipping...")
-        return
+    # if os.path.exists(f"{PRIVACY_RESULTS_PATH}/{index}.json"):
+    #     print(f"Script {index} already processed. Skipping...")
+    #     return
     
     delegate_scenario = {
         "scenario": script['scenario']['scenario'],
@@ -126,14 +127,14 @@ def workflow(args: argparse.Namespace):
         {message["name"]: message["content"].replace("TERMINATE", "")} 
         for message in chat_result.chat_history[1:]
     ]
-    with open(f"{PRIVACY_RESULTS_PATH}/{index}.json", "w") as f:
-        result = {
-            "script": script,
-            "chat_history": chat_history,
-            "scenario": script['scenario'],
-            "user_preferences": script['user_preferences']
-        }
-        json.dump(result, f, indent=4)
+    # with open(f"{PRIVACY_RESULTS_PATH}/{index}.json", "w") as f:
+    #     result = {
+    #         "script": script,
+    #         "chat_history": chat_history,
+    #         "scenario": script['scenario'],
+    #         "user_preferences": script['user_preferences']
+    #     }
+    #     json.dump(result, f, indent=4)
 
 
 if __name__ == "__main__":
